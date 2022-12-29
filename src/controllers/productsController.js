@@ -41,12 +41,13 @@ const controller = {
 			price : req.body.price,
 			discount : req.body.discount,
 			category : req.body.category,
-			description : req.body.description
+			description : req.body.description,
+			image : "default-image.png"
 		}
 		products.push(newProduct)
 		save(products)
 
-		res.redirect('/products')
+		res.redirect(`/products`)
 	},
 
 	// Update - Form to edit
@@ -76,16 +77,17 @@ const controller = {
 			
 		});
 		save(products)
-		/* res.redirect(`/detail/${id}`) */
-		res.redirect('/products')
+		return res.redirect(`/products/detail/${id}`)
+		/* return res.redirect('/products') */
 	},
 
 	// Delete - Delete one product from DB
 	destroy : (req, res) => {
-		let id = req.params.id
-		let newList = products.filter((product) => product.id !== id)
+		let id = +req.params.id
+		let newList = products.filter((product) => {
+			return product.id !== id})
 		save(newList)
-		res.redirect('/products')
+		return res.redirect('/')
 	}
 };
 
